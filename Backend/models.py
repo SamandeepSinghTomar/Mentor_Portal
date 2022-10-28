@@ -20,7 +20,8 @@ class User(db.Model):
 
 class Post(db.Model):
     __tablename__='Post'
-    user_id     =   db.Column(db.ForeignKey('User.user_id'),primary_key=True)
+    user_id     =   db.Column(db.ForeignKey('User.user_id'))
+    post_id     =   db.Column(db.Integer,primary_key=True)
     text        =   db.Column(db.BLOB)
     created_at  =   db.Column(db.DateTime, default=db.func.now())
     likes       =   db.Column(db.Integer)
