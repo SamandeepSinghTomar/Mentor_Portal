@@ -74,7 +74,7 @@ class User_API(Resource):
         fields = user_args.parse_args()
         user=User.query.filter_by(user_name=fields['user_name']).first()
         if check_password_hash(pwhash=user.password,password=fields['password']):
-            return 201,JSON(user)               #token to be implemented
+            return 200,JSON(user)               #token to be implemented
         else:
             raise error(msg="Credentials not matched!!",code="L101")
     
@@ -110,7 +110,7 @@ class User_API(Resource):
         if check_password_hash(pwhash=user.password,password=fields['password']):
             db.session.delete(user)
             db.session.commit()
-            return 201,{'message':'User Deleted Successfully!'}
+            return 202,{'message':'User Deleted Successfully!'}
         else:
             raise error(msg="Password Incorrect!!",code="U201")
 
@@ -152,7 +152,7 @@ def Post_API(Resource):
         fields = post_args.parse_args()
         post=Post.query.filterby(user_id=int(fields['user_id'])).first()
         if post:
-            return 201, JSON(post)
+            return 200, JSON(post)
         else:
             return error(msg='Something Went Wrong!!',code=501)
 
@@ -182,6 +182,7 @@ def Post_API(Resource):
     #To Delete Post.
     #Authentication Required.
     #Can only be done by Author user.
+    #Body: {'user_id':'','password':'','post_id':''}
     def delete(self):
         #response:
         #status: 201,{'message':'Post Deleted Successfully!!'}
@@ -191,6 +192,6 @@ def Post_API(Resource):
         if post:
             db.session.delete(post)
             db.session.commit()
-            return 201,{'message':'Post Deleted Successfully!'}
+            return 202,{'message':'Post Deleted Successfully!'}
         else:
             return error(msg='Something Went Wrong!!',code=501)            
