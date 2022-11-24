@@ -1,9 +1,14 @@
 <template>
-  <div class="row">
+  <div class="container">
+    <div class="row">
+      <div class="arrow_column">
+        <button href="#" style="text-decoration:none;color:white;" @click="$router.go(-1)">&lt;</button>
+      </div>
     <div class="column">
       <router-link to="/">
         <img class="logo_center" src="@/assets/logo.svg">
       </router-link>
+      <p style="font-style:italic;">Not a User? <router-link to="/register" style="color:#ff7b00;text-decoration: none;">Register</router-link></p>
     </div>
     <div class="column register">
       <form>
@@ -13,6 +18,7 @@
       </form>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -29,7 +35,7 @@ box-sizing: border-box;
 .row{
 overflow: hidden;
 width:70%;
-margin:8em auto 0 auto;
+margin:6em auto 0 auto;
 border-radius: 50px;
 box-shadow: 10px 12px 16px 0 rgba(136, 135, 135, 0.625);
 }
@@ -38,8 +44,25 @@ box-shadow: 10px 12px 16px 0 rgba(136, 135, 135, 0.625);
 float: left;
 width: 50%;
 padding: 5% 0 5% 0;
-margin: 5% 0 5% 0;
+margin: 0 0 5% 0;
 /* height: 300px; Should be removed. Only for demonstration */
+}
+.arrow_column button{
+  width:100%;display: flex;justify-content: flex-start;
+  text-decoration: none;
+  font-size: 35px;
+  margin: 20px 0 0 20px;
+  padding:0 0 0 9px;
+  content: "";
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  color: white;
+  border:0;
+  background-color: rgba(0, 118, 253, 0.536);
+}
+.arrow_column button:hover{
+  box-shadow: 0 12px 16px 0 rgba(136, 135, 135, 0.625);
 }
 .row:after {
 content: "";
@@ -65,11 +88,11 @@ width: 250px;
   font-family: "Asap", sans-serif;
   font-style: italic;
   display: inline-flex;
-  border-radius: 5px;
-  font-size: 12px;
+  border-radius: 50px;
+  font-size: 14px;
   background: white;
   width: 50%;
-  border: 3px solid #ff7b00ab;
+  border: 1px solid #ff7b00ab;
   padding:2% 0 2% 2%;
   margin:0 0 5px 0;
 }
@@ -77,8 +100,8 @@ width: 250px;
   font-family: "Asap", sans-serif;
   font-style: italic;
   display: inline-flex;
-  border-radius: 5px;
-  font-size: 12px;
+  border-radius: 50px;
+  font-size: 14px;
   width: 50%;
   padding:0;
   margin:0 0 2px 0;
@@ -131,15 +154,15 @@ height: 40px;
   }
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 750px) {
 .column {
   width: 100%;
   padding: 5% 0 5% 0;
-  margin: 5% 0 5% 0;
+  margin:0;
 }
 .row{
   width: 90%;
-  margin:3.5em auto 0 auto;
+  margin:3em auto 0 auto;
 }
 .logo_center{
 /* border: 1px solid black; */
@@ -158,11 +181,13 @@ margin:0;
 }
 .register > form > input{
   width: 70%;
+  font-size: 12px;
   padding:2% 0 2% 2%;
-  margin:0 0 5px 0;
+  margin:0 0 10px 0;
 }
 .register > form > label{
   width:70%;
+  font-size:12px;
 }
 }
 </style>

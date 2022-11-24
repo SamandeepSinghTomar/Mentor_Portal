@@ -1,6 +1,8 @@
 <template>
   <div class="logo_center">
-    <img src="@/assets/logo.svg">
+    <router-link to="/">
+        <img class="logo_center" src="@/assets/logo.svg">
+    </router-link>
     <h1>Mentor's Portal</h1>
     <h2>Indian Institute of Technology, Madras</h2>
     <h3>BS Degree in Data Science and Applications</h3>

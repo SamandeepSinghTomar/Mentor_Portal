@@ -1,9 +1,13 @@
 <template>
     <div class="row">
+      <div class="arrow_column">
+        <button href="#" style="text-decoration:none;color:white;" @click="$router.go(-1)">&lt;</button>
+      </div>
       <div class="column">
         <router-link to="/">
           <img class="logo_center" src="@/assets/logo.svg">
         </router-link>
+        <p style="font-style:italic;">Already a User? <router-link to="/login" style="color:rgba(0, 255, 136);text-decoration: none;">Login</router-link></p>
       </div>
       <div class="column register">
         <form>
@@ -42,7 +46,7 @@ export default {
 .row{
   overflow: hidden;
   width:70%;
-  margin:8em auto 0 auto;
+  margin:5em auto 0 auto;
   border-radius: 50px;
   box-shadow: 10px 12px 16px 0 rgba(136, 135, 135, 0.625);
 }
@@ -53,6 +57,23 @@ export default {
   padding: 3% 0 2% 0;
   /* height: 300px; Should be removed. Only for demonstration */
 }
+.arrow_column button{
+  width:100%;display: flex;justify-content: flex-start;
+  text-decoration: none;
+  font-size: 35px;
+  margin: 20px 0 0 20px;
+  padding:0 0 0 9px;
+  content: "";
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  color: white;
+  border:0;
+  background-color: rgba(0, 118, 253, 0.536);
+}
+.arrow_column button:hover{
+  box-shadow: 0 12px 16px 0 rgba(136, 135, 135, 0.625);
+}
 .row:after {
   content: "";
   display: table;
@@ -61,7 +82,7 @@ export default {
 
 .logo_center{
   /* border: 1px solid black; */
-  margin:12% 0 0 0;
+  margin:10% 0 0 0;
   display: inline-block;
   width: 250px;
 }
@@ -75,11 +96,11 @@ export default {
     font-family: "Asap", sans-serif;
     font-style: italic;
     display: inline-flex;
-    border-radius: 5px;
-    font-size: 12px;
+    border-radius: 50px;
+    font-size: 14px;
     background: white;
     width: 50%;
-    border: 2px solid rgba(0, 255, 136, 0.411);
+    border: 1px solid rgba(0, 255, 136, 0.411);
     padding:2% 0 1% 2%;
     margin:0 0 5px 0;
   }
@@ -87,11 +108,11 @@ export default {
     font-family: "Asap", sans-serif;
     font-style: italic;
     display: inline-flex;
-    border-radius: 5px;
-    font-size: 12px;
+    border-radius: 50px;
+    font-size: 14px;
     background: white;
     width: 50%;
-    border: 2px solid rgba(0, 255, 136, 0.411);
+    border: 1px solid rgba(0, 255, 136, 0.411);
     margin:0 0 5px 0;
     padding: 1% 0 1% 2%;
   }
@@ -99,10 +120,10 @@ export default {
     font-family: "Asap", sans-serif;
     font-style: italic;
     display: inline-flex;
-    border-radius: 5px;
-    font-size: 12px;
+    border-radius: 50px;
+    font-size: 14px;
     width: 50%;
-    padding:0;
+    padding:0 0 0 5px;
     margin:0 0 2px 0;
   }
   .register > form > button {
@@ -158,9 +179,12 @@ export default {
     width: 100%;
     padding: 1% 0 2% 0;
   }
+  .column p{
+    font-size: smaller;
+  }
   .row{
     width: 90%;
-    margin:3.5em auto 0 auto;
+    margin:2em auto 0 auto;
   }
   .logo_center{
   /* border: 1px solid black; */
@@ -176,15 +200,18 @@ export default {
     bottom: -155%;
   }
   .register > form > input{
+    font-size: 12px;
     width: 70%;
     padding:1% 0 1% 2%;
     margin:0 0 5px 0;
   }
   .register > form > label{
     width:70%;
+    font-size: 12px;
   }
   .register > form > select{
     width: 70%;
+    font-size: 12px;
     padding: 1% 0 1% 2%;
   }
 }
