@@ -69,9 +69,10 @@ export default {
   border-radius: 20px;
   color: white;
   border:0;
-  background-color: rgba(0, 118, 253, 0.536);
+  background-color:#ff7b00ab;
 }
 .arrow_column button:hover{
+  background-color: #ff7b00c6;
   box-shadow: 0 12px 16px 0 rgba(136, 135, 135, 0.625);
 }
 .row:after {

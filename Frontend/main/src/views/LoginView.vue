@@ -59,9 +59,10 @@ margin: 0 0 5% 0;
   border-radius: 20px;
   color: white;
   border:0;
-  background-color: rgba(0, 118, 253, 0.536);
+  background-color: rgba(4, 255, 67, 0.69);
 }
 .arrow_column button:hover{
+  background-color: hwb(135 2% 0% / 0.79);
   box-shadow: 0 12px 16px 0 rgba(136, 135, 135, 0.625);
 }
 .row:after {
