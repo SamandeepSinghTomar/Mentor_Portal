@@ -1,0 +1,501 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Codespaces
+Marketplace
+Explore
+ 
+@SamandeepSinghTomar 
+bsc-iitm
+/
+soft-engg-project-group-1
+Private
+generated from bsc-iitm/github-starter-course
+Code
+Issues
+Pull requests
+1
+Actions
+Projects
+Wiki
+Security
+Insights
+soft-engg-project-group-1/Week_8/SWE_updated_openapi.yaml
+@SamandeepSinghTomar
+SamandeepSinghTomar Week 8 submissions.
+Latest commit 3445513 21 days ago
+ History
+ 1 contributor
+455 lines (451 sloc)  12.5 KB
+
+openapi: 3.0.3
+info:
+  title: User API
+  version: 1.0.0.0
+  description: API for managing the core users
+servers:
+  - url: http://127.0.0.1:5000
+    variables: {}
+paths:
+  /user:
+    description: To manage a user
+    post:
+      summary: ''
+      description: To add a user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_name:
+                  type: string
+                  example: xyz
+                password:
+                  type: string
+                  example: xyz1234
+                first_name:
+                  type: string
+                  example: Raju
+                middle_name:
+                  type: string
+                  example: Singh
+                last_name:
+                  type: string
+                  example: Kumar
+                dob:
+                  type: string
+                  example: 01.01.2000
+                email:
+                  type: string
+                  example: xyz@gmail.com
+                roll_number:
+                  type: string
+                  example: 21f1000xyz
+                role:
+                  type: string
+                  example: student/mentor
+      operationId: '1'
+      responses:
+        '201':
+          description: success - return newly created object
+          content:
+            application/json:
+              examples:
+                Sample 201 response:
+                  value:
+                    message: User Created Successfully!
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad Request
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              examples:
+                Sample 500 response:
+                  value: Internal Error
+        'U101':
+          description: Email already exists
+          content:
+            application/json:
+              examples:
+                Sample U101 response:
+                  value: 
+                    message : Email address already registered!!
+        'U102':
+          description: User already exists
+          content:
+            application/json:
+              examples:
+                Sample U102 response:
+                  value: 
+                    message : User_name already taken!!
+                    
+    get:
+      summary: ''
+      description: To add a user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_name:
+                  type: string
+                  example: xyz
+                password:
+                  type: string
+                  example: xyz1234
+      operationId: '2'
+      responses:
+        '200':
+          description: success-login
+          content:
+            application/json:
+              examples:
+                Sample 200 response:
+                  value:
+                    token:
+                      xyz13415426758i9th
+                    user_name:
+                      xyz
+                    first_name:
+                      Raju
+                    middle_name:
+                      Singh
+                    last_name:
+                      Kumar
+                    dob:
+                      01.01.2000
+                    email:
+                      xyz@gmail.com
+                    roll_number:
+                      21f1000xyz
+                    role:
+                      student/mentor
+                    created_at:
+                      02.11.2022
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad Request
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              examples:
+                Sample 500 response:
+                  value: Internal Error
+        'L101':
+          description: Bad Credentials
+          content:
+            application/json:
+              examples:
+                Sample L101 response:
+                  value: 
+                    message : Credentials not matched!!
+    put:
+      summary: ''
+      description: To update a user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  example: xyz1234
+      operationId: '3'
+      responses:
+        '201':
+          description: successfully updated
+          content:
+            application/json:
+              examples:
+                Sample 201 response:
+                  value:
+                    message : Profile/Preferences updated successfully!
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad Request
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              examples:
+                Sample 500 response:
+                  value: Internal Error
+        'U201':
+          description: Password Incorrect
+          content:
+            application/json:
+              examples:
+                Sample U201 response:
+                  value: 
+                    message : Password Incorrect!!
+    delete:
+      summary: ''
+      description: To delete a user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_name:
+                  type: string
+                  example: xyz
+                password:
+                  type: string
+                  example: xyz1234
+      operationId: '4'
+      responses:
+        '202':
+          description: successfully deleted
+          content:
+            application/json:
+              examples:
+                Sample 202 response:
+                  value:
+                    message : User Deleted Successfully!
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad Request
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              examples:
+                Sample 500 response:
+                  value: Internal Error
+        'U201':
+          description: Password Incorrect
+          content:
+            application/json:
+              examples:
+                Sample U201 response:
+                  value: 
+                    message : Password Incorrect!!
+  /post:
+    description: To manage a post
+    post:
+      summary: ''
+      description: To add a user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                  example: xyz
+                user_name:
+                  type: string
+                  example: xyz
+                text:
+                  type: string
+                  example: I am creating Software application:)
+      operationId: '5'
+      responses:
+        '201':
+          description: success post
+          content:
+            application/json:
+              examples:
+                Sample 201 response:
+                  value:
+                    message: Post Created Successfully!
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad Request
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              examples:
+                Sample 500 response:
+                  value: Internal Error
+        '501':
+          description: Credentials not matched 
+          content:
+            application/json:
+              examples:
+                Sample 501 response:
+                  value: 
+                    message : Something Went Wrong!!
+                    
+    get:
+      summary: ''
+      description: To get user posts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                  example: xyz
+      operationId: '6'
+      responses:
+        '200':
+          description: successfully fetched
+          content:
+            application/json:
+              examples:
+                Sample 200 response:
+                  value:
+                    post_id:
+                      xyz13415426758i9th
+                    text:
+                      Software Engineering
+                    likes:
+                      "10"
+                    user_name:
+                      xyz
+                    post_author's name:
+                      xyz1
+                    created_at:
+                      02.11.2022
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad Request
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              examples:
+                Sample 500 response:
+                  value: Internal Error
+        '501':
+          description: Credentials not matched 
+          content:
+            application/json:
+              examples:
+                Sample 501 response:
+                  value: 
+                    message : Something Went Wrong!!
+                    
+    put:
+      summary: ''
+      description: To update a user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                  example: xyz
+                user_name:
+                  type: string
+                  example: xyz
+                text:
+                  type: string
+                  example: I am creating Software application:)
+      operationId: '7'
+      responses:
+        '201':
+          description: successfully updated
+          content:
+            application/json:
+              examples:
+                Sample 201 response:
+                  value:
+                    message : Profile/Preferences updated successfully!
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad Request
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              examples:
+                Sample 500 response:
+                  value: Internal Error
+        'U201':
+          description: Password Incorrect
+          content:
+            application/json:
+              examples:
+                Sample U201 response:
+                  value: 
+                    message : Password Incorrect!!
+    delete:
+      summary: ''
+      description: To delete a user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                  example: xyz
+                password:
+                  type: string
+                  example: xyz1234
+                post_id:
+                  type: string
+                  example: xyz
+      operationId: '8'
+      responses:
+        '202':
+          description: successfully deleted
+          content:
+            application/json:
+              examples:
+                Sample 202 response:
+                  value:
+                    message : Post Deleted Successfully!
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad Request
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              examples:
+                Sample 500 response:
+                  value: Internal Error
+        '501':
+          description: Bad Credentials
+          content:
+            application/json:
+              examples:
+                Sample U201 response:
+                  value: 
+                    message : Something Went Wrong!!
+  
+Footer
+© 2022 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+soft-engg-project-group-1/Week_8 at main · bsc-iitm/soft-engg-project-group-1soft-engg-project-group-1/SWE_updated_openapi.yaml at main · bsc-iitm/soft-engg-project-group-1

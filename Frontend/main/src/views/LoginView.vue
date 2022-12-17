@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="arrow_column">
-        <button href="#" style="text-decoration:none;color:white;" @click="$router.go(-1)">&lt;</button>
+        <button href="#" style="text-decoration:none;color:white;" @click="$router.go('-1')">&lt;</button>
       </div>
     <div class="column">
       <router-link to="/">
@@ -11,10 +11,10 @@
       <p style="font-style:italic;">Not a User? <router-link to="/register" style="color:#ff7b00;text-decoration: none;">Register</router-link></p>
     </div>
     <div class="column register">
-      <form>
-      <input type="text" id="user_name" name="user_name" placeholder="User name"><br>
-      <input type="password" id="password" name="password" placeholder="Password"><br>
-      <button id="submit" name="submit" value="Login">Login</button>
+      <form action="#">
+      <input type="text" id="user_name" name="user_name" placeholder="User name" v-model="user_name"><br>
+      <input type="password" id="password" name="password" placeholder="Password" v-model="password"><br>
+      <button id="submit" name="submit" value="Login" @click="login()">Login</button>
       </form>
     </div>
   </div>
@@ -23,7 +23,40 @@
 
 <script>
 export default {
-
+  data(){
+    return{
+      user_name: "",
+      password: "",
+    }
+  },
+  methods: {
+    async login() {
+       {
+        const requestOptions = {
+          method: "GET",
+          headers: { "Content-Type": "application/json"},
+          credentials: 'include',
+        };
+        const response = await fetch(this.$store.state.BaseURL+"/user/"+this.user_name+"/"+this.password, requestOptions);
+        let fields = await response.json()
+        localStorage.token =await fields['token'];
+        localStorage.user_name =await fields['user_name'];
+        localStorage.first_name =await fields['first_name'];
+        localStorage.middle_name =await fields['middle_name'];
+        localStorage.last_name =await fields['last_name'];
+        localStorage.user_id =await fields['user_id'];
+        localStorage.dob =await fields['dob'];
+        localStorage.email =await fields['email'];
+        localStorage.roll_number =await fields['roll_number'];
+        localStorage.role =await fields['role'];
+        localStorage.created_at =await fields['created_at'];
+        this.$router.push({ path: '/dashboard' });
+      }
+    },
+  },
+  beforeMount() {
+    // this.$router.push('/login')
+  },
 }
 </script>
 

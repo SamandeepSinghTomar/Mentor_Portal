@@ -10,23 +10,23 @@
         <p style="font-style:italic;">Already a User? <router-link to="/login" style="color:rgba(0, 255, 136);text-decoration: none;">Login</router-link></p>
       </div>
       <div class="column register">
-        <form>
-        <input type="text" id="first_name" name="first_name" placeholder="First Name"><br>
-        <input type="text" id="middle_name" name="middle_name" placeholder="Middle name"><br>
-        <input type="text" id="last_name" name="last_name" placeholder="Last name"><br>
-        <input type="text" id="user_name" name="user_name" placeholder="User name"><br>
-        <input type="text" placeholder="Date of Birth" onfocus="(this.type='date')" id="dob" name="dob"><br>
-        <input type="email" id="email" name="email" placeholder="Email Address"><br>
-        <input type="password" id="password" name="password" placeholder="Password"><br>
-        <input type="password" id="re_password" name="re_password" placeholder="Re-Enter Password"><br>
+        <form action="#">
+        <input type="text" id="first_name" name="first_name" placeholder="First Name" v-model="first_name"><br>
+        <input type="text" id="middle_name" name="middle_name" placeholder="Middle name" v-model="middle_name"><br>
+        <input type="text" id="last_name" name="last_name" placeholder="Last name" v-model="last_name"><br>
+        <input type="text" id="user_name" name="user_name" placeholder="User name" v-model="user_name"><br>
+        <input type="text" placeholder="Date of Birth" onfocus="(this.type='date')" id="dob" name="dob" v-model="dob"><br>
+        <input type="email" id="email" name="email" placeholder="Email Address" v-model="email"><br>
+        <input type="password" id="password" name="password" placeholder="Password" v-model="password"><br>
+        <input type="password" id="re_password" name="re_password" placeholder="Re-Enter Password" v-model="re_password"><br>
         <label for="role" style="margin:0 2% 0 2%;">Role</label><br>
-        <select name="role" size="1">
+        <select name="role" size="1" v-model="role">
           <option id="student" name="role" key="Student">Student</option>
           <option id="mentor" name="role" key="Mentor">Mentor</option>
           <option id="alumni" name="role" key="alumni">Alumni</option>
         </select>
         <br>
-        <button id="submit" name="submit" value="Register">Register</button>
+        <button id="submit" name="submit" value="Register" @click="register()">Register</button>
         </form>
       </div>
     </div>
@@ -34,7 +34,47 @@
 
 <script>
 export default {
-
+  data(){
+    return{
+      first_name:'',
+      middle_name:'',
+      last_name:'',
+      user_name:'',
+      dob:'',
+      email:'',
+      password:'',
+      re_password:'',
+      role:'',
+    }
+  },
+  methods: {
+    async register() {
+       {
+        const requestOptions = {
+          method: "POST",
+          headers: { "Content-Type": "application/json"},
+          credentials: 'include',
+          body: JSON.stringify({
+            first_name:this.first_name,
+            middle_name:this.middle_name,
+            last_name:this.last_name,
+            user_name:this.user_name,
+            dob:this.dob,
+            email:this.email,
+            password:this.password,
+            role:this.role,
+          }),
+        };
+        // const response = 
+        fetch(this.$store.state.BaseURL+"/user", requestOptions);
+        // let fields = await response.json();
+        this.$router.push('/login');
+      }
+    },
+  },
+  beforeMount() {
+    // this.$router.push('/register')
+  },
 }
 </script>
 

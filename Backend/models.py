@@ -13,10 +13,10 @@ class User(db.Model):
     middle_name =       db.Column(db.String(40))
     last_name   =       db.Column(db.String(40))
     dob         =       db.Column(db.DateTime)
-    email       =       db.Column(db.VARCHAR(60))
+    email       =       db.Column(db.String(60))
     roll_number =       db.Column(db.String(40))
     role        =       db.Column(db.String)
-    created_at  =       db.Column(db.DateTime, default=db.func.now())
+    created_at  =       db.Column(db.DateTime(), default=db.func.now())
 
 class Post(db.Model):
     __tablename__='Post'

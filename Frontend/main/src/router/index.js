@@ -32,12 +32,13 @@ const routes = [
 ]
 
 const router = createRouter({
+  mode:'history',
   history: createWebHistory(process.env.BASE_URL),
   routes
 });
 
 router.beforeEach((to,from,next)=>{
   document.title=`${to.meta.title}`;
-  next();
+  next()
 });
 export default router

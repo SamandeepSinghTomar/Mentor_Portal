@@ -1,16 +1,19 @@
-from asyncore import file_dispatcher
-from cgitb import text
 from datetime import datetime
 from distutils.log import error
-from click import password_option
+from functools import wraps
+from flask import jsonify, request
 from flask_restful import Resource, reqparse
 from sqlalchemy import JSON
+import jwt
 from models import db,User, Post
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
 user_args = reqparse.RequestParser()
 user_args.add_argument('user_name')
+user_args.add_argument('user_id')
 user_args.add_argument('password')
+user_args.add_argument('new_password')
 user_args.add_argument('first_name')
 user_args.add_argument('middle_name')
 user_args.add_argument('last_name')
@@ -18,6 +21,27 @@ user_args.add_argument('dob')
 user_args.add_argument('email')
 user_args.add_argument('roll_number')
 user_args.add_argument('role')
+
+
+
+format = '%Y-%m-%d'
+#JWT Tokenization
+def token_required(f):
+   @wraps(f)
+   def decorator(*args, **kwargs):
+       token = None
+       if 'x-access-tokens' in request.headers:
+           token = request.headers['x-access-tokens']
+ 
+       if not token:
+           return jsonify({'message': 'a valid token is missing'})
+       try:
+           data = jwt.decode(token, algorithms=["HS256"])
+       except:
+           return jsonify({'message': 'token is invalid'})
+ 
+       return f(*args, **kwargs)
+   return decorator
 
 #USER_Api to deal with all information regarding user.
 class User_API(Resource):
@@ -45,9 +69,9 @@ class User_API(Resource):
             raise error(msg="User_name already taken!!", code="U102")
 
         #Backend Validation to be implemented over field values.
-        new_user = User(user_name=fields['user_name'], password = generate_password_hash(fields['password'], method='sha256'), 
-                        first_name=fields['first_name'],middle_name=fields['middle_name'],last_name=fields['last_name'],
-                        dob=fields['dob'],email=filter['email'],roll_number=fields['roll_number'],role=fields['role'],created_at=datetime.now())
+        new_user = User(user_name=fields.user_name, password = generate_password_hash(fields.password, method='sha256'), 
+                        first_name=fields.first_name,middle_name=fields.middle_name,last_name=fields.last_name,
+                        dob=datetime.strptime(fields.dob,format),email=fields.email,roll_number=fields.roll_number,role=fields.role,created_at=datetime.now())
         try:
             db.session.add(new_user)
             db.session.commit()
@@ -57,7 +81,7 @@ class User_API(Resource):
     
     #Give information about the user,
     #Body: {'user_name':'','password':''}
-    def get(self):
+    def get(self,user_name,password):
         #response:
         #status: 201,
         #JSON: {'token':'',
@@ -71,10 +95,11 @@ class User_API(Resource):
         #      'role':'',
         #      'created_at':''}
         #raise_error: L101, {'message':'Credentials not matched!!'}
-        fields = user_args.parse_args()
-        user=User.query.filter_by(user_name=fields['user_name']).first()
-        if check_password_hash(pwhash=user.password,password=fields['password']):
-            return 200,JSON(user)               #token to be implemented
+        # fields = user_args.parse_args()
+        user=User.query.filter_by(user_name=user_name).first()
+        if check_password_hash(pwhash=user.password,password=password):
+            token = jwt.encode({'public_id' : user.user_id }, "HS256")
+            return jsonify({'token':token,'user_name':user.user_name,'user_id':user.user_id,'first_name':user.first_name,'middle_name':user.middle_name,'last_name':user.last_name,'dob':user.dob,'email':user.email,'roll_number':user.roll_number,'role':user.role,'created_at':user.created_at})
         else:
             raise error(msg="Credentials not matched!!",code="L101")
     
@@ -82,16 +107,26 @@ class User_API(Resource):
     #To update profile or prefrences of user,
     #Body: {'password':'','changed_field':'value_to_be_updated',---}
     #Authentication Required.
+    @token_required
     def put(self):
         #response:
         #status: 201, {'message':'Profile/Preferences updated successfully!'}
         #raise_error: U201, {'message':'Password Incorrect!!'} 
         fields = user_args.parse_args()
-        user=User.query.filter_by(user_id=int(fields['user_id'])).first()
-        if check_password_hash(pwhash=user.password,password=fields['password']):
-            user=fields  #may give error if nullable constraints are made on User model and due to created_at column as it is not parsed in fields!! 
+        user=User.query.filter_by(user_id=int(fields.user_id)).first()
+        if check_password_hash(pwhash=user.password,password=fields.password):
+            db.session.delete(user)
             db.session.commit()
-            return 201, {'message':'Profile/Preferences updated successfully!'}
+            #may give error if nullable constraints are made on User model and due to created_at column as it is not parsed in fields!! 
+            if fields.new_password!=None:
+                fields.password=fields.new_password
+            user = User(user_name=fields.user_name, password = generate_password_hash(fields.password, method='sha256'), 
+                        first_name=fields.first_name,middle_name=fields.middle_name,last_name=fields.last_name,
+                        dob=datetime.strptime(fields.dob,format),email=fields.email,roll_number=fields.roll_number,role=fields.role,created_at=datetime.now())
+            db.session.add(user)
+            db.session.commit()
+            return User_API.get(user)
+            # return 201, {'message':'Profile/Preferences updated successfully!'}
         else:
             raise error(msg="Password Incorrect!!",code="U201")
 
@@ -99,6 +134,7 @@ class User_API(Resource):
     #Delete User (Optional to Implement)
     #Body: {'user_name':'', 'password':''}
     #Authentication Required.
+    @token_required
     def delete(self):
         #response:
         #status: 201, {'message':'User Deleted Successfully!'}
@@ -110,7 +146,7 @@ class User_API(Resource):
         if check_password_hash(pwhash=user.password,password=fields['password']):
             db.session.delete(user)
             db.session.commit()
-            return 202,{'message':'User Deleted Successfully!'}
+            return 200,{'message':'User Deleted Successfully!'}
         else:
             raise error(msg="Password Incorrect!!",code="U201")
 
@@ -124,7 +160,7 @@ post_args.add_argument('text')
 post_args.add_argument('likes')
 
 #Post_Api to deal with the posts created by user.
-def Post_API(Resource):
+class Post_API(Resource):
     #To create post by user.
     #Authentication Required.
     #Body: {'user_id':'','user_name':'','text':''}
